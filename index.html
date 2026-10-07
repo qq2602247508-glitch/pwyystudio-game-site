@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWYY Studio - 独立游戏工作室</title>
+  <meta name="description" content="PWYY Studio 官方网站，探索我们的最新游戏作品与开发动态。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0b10;
+      --bg-secondary: #121520;
+      --bg-card: rgba(22, 27, 42, 0.7);
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.35);
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --font-heading: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
+      --font-body: 'Noto Sans SC', 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Ambient Glow Background */
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-glow-1 {
+      position: absolute;
+      top: -10%;
+      right: 15%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      filter: blur(80px);
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      bottom: 10%;
+      left: -5%;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
+      filter: blur(90px);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 11, 16, 0.75);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #fff;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .btn-contact {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff !important;
+      padding: 0.5rem 1.1rem;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-contact:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      padding-top: 5rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 6rem 0 4rem;
+      text-align: center;
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-tag .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 10px #34d399;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-game-title {
+      color: var(--accent-cyan);
+      -webkit-text-fill-color: var(--accent-cyan);
+      display: inline-block;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #4f46e5);
+      color: #fff;
+      padding: 0.9rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 25px var(--accent-glow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 0.9rem 1.8rem;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Showcase Banner / Featured Media */
+    .featured-showcase {
+      margin: 3rem auto 6rem;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    .featured-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      background: #111422;
+      overflow: hidden;
+    }
+
+    .featured-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .featured-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(10, 11, 16, 0.95) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 2.5rem;
+    }
+
+    .featured-meta {
+      max-width: 600px;
+    }
+
+    .featured-meta h3 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .featured-meta p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Highlights Section */
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 3rem;
+      max-width: 600px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 6rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-card h4 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      margin-bottom: 6rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      cursor: pointer;
+      group: "";
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-item-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    /* Studio About Section */
+    .studio-box {
+      background: linear-gradient(135deg, rgba(22, 27, 42, 0.8), rgba(15, 23, 42, 0.6));
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 6rem;
+    }
+
+    .studio-content h3 {
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+      font-family: var(--font-heading);
+    }
+
+    .studio-content p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .contact-card {
+      background: rgba(10, 11, 16, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 2rem;
+    }
+
+    .contact-card h4 {
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .email-display {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 1rem;
+      color: #c7d2fe;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 0;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .studio-box {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+      }
+      .featured-img-wrapper {
+        height: 300px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg">
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+  </div>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <div class="logo-badge">P</div>
+        PWYY STUDIO
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about-game">游戏介绍</a></li>
+        <li><a href="#gallery">游戏截图</a></li>
+        <li><a href="#studio">关于工作室</a></li>
+        <li><a href="#contact" class="btn-contact">联系我们</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="pill-tag">
+          <span class="dot"></span>
+          新作开发中 · In Active Development
+        </div>
+        <h1>
+          探索未知的奇幻边界<br>
+          <span class="hero-game-title">《代号：星辉回响》</span>
+        </h1>
+        <p>
+          由 PWYY Studio 倾力打造的全新沉浸式冒险游戏。踏入充满谜团与机械余晖的遗落大陆，在光影与音律交织的冒险中探寻世界最初的真相。
+        </p>
+        <div class="hero-actions">
+          <a href="#about-game" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            了解游戏详情
+          </a>
+          <a href="#gallery" class="btn-secondary">
+            查看游戏截图
+          </a>
+        </div>
+      </section>
+
+      <!-- Featured Image Banner -->
+      <div class="featured-showcase" id="about-game">
+        <div class="featured-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=80" alt="Game Concept Art" class="featured-img" id="mainBanner">
+          <div class="featured-overlay">
+            <div class="featured-meta">
+              <span class="pill-tag" style="margin-bottom: 0.75rem; background: rgba(0,0,0,0.6);">Steam / PC 平台首发</span>
+              <h3>沉浸式视听叙事体验</h3>
+              <p>融合风格化美术渲染与动态环境互动，每一帧皆是独特的艺术画卷。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Grid -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <h4>独创的世界观架构</h4>
+          <p>游历错综复杂的遗迹浮岛，通过收集失落文明的记忆碎片，拼凑出跌宕起伏的史诗篇章。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚔️</div>
+          <h4>深度策略与解谜</h4>
+          <p>融合环境要素交互与快节奏即时反应，每一次抉择都将决定关卡的推进轨迹与故事走向。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h4>匠心打磨的美术质感</h4>
+          <p>精雕细琢的光影粒子与手绘纹理，营造空灵而又充满力量感的末世幻想美学氛围。</p>
+        </div>
+      </div>
+
+      <!-- Gallery Grid -->
+      <section class="gallery-section" id="gallery">
+        <h2 class="section-title">游戏实机与概念图景</h2>
+        <p class="section-subtitle">抢先预览游戏世界中的场景设计、光影细节与沉浸氛围。</p>
+
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Scene 1">
+            <div class="gallery-item-caption">场景探索 · 荒废神殿的回廊</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" alt="Scene 2">
+            <div class="gallery-item-caption">核心机制 · 光能机关的运转</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=800&q=80" alt="Scene 3">
+            <div class="gallery-item-caption">氛围渲染 · 晨曦微光下的远山</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Studio & Contact Section -->
+      <section class="studio-box" id="studio">
+        <div class="studio-content">
+          <h3>关于 PWYY Studio</h3>
+          <p>
+            PWYY Studio 是一家专注于打造高品质独立游戏体验的创作团队。我们坚信游戏是连接艺术与想象力的第七媒介，致力于通过深刻的叙事与富有创意的玩法，带给玩家纯粹的情感触动。
+          </p>
+          <p>
+            欢迎媒体、发行商以及热爱游戏的小伙伴与我们建立联系，共同见证作品的诞生与成长。
+          </p>
+        </div>
+        <div class="contact-card" id="contact">
+          <h4>商务与媒体合作</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            期待与您的交流，请通过以下工作室官方邮箱发送邮件：
+          </p>
+          <div class="email-display">
+            <span>✉️</span>
+            <!-- 稍后可替换为实际配置的自定义域名邮箱 -->
+            <span id="studioEmail">contact@pwyystudio.com</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 PWYY Studio. All Rights Reserved. ｜ 独立游戏梦工场</p>
+    </div>
+  </footer>
+
+</body>
+</html>
